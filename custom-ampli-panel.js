@@ -30,8 +30,33 @@ class CustomAmpliPanel extends LitElement {
     return html`
         <div class="card">
           <div class="page" style="--remote-button-color: ${buttonColor}; --remote-text-color: ${textColor}; --remote-color: ${backgroundColor};">
-            
-              <div class="grid-container-input-mode">
+          <div class="grid-container-power"  style="margin-left:50px;">
+
+            <button class="power ${stateObj.state === "on" ? 'btn_command-on' : 'btn_command ripple overlay'}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? 'white' : 'red'};"</button>
+
+            <button class="input btn_command  ripple overlay" @click=${() => this._media_player_service("volume_up")}>INPUT</button>
+            <button class="sound btn_command  ripple overlay" @click=${() => this._media_player_service("volume_up")}>SOUND</button>
+
+              <svg class="text-zone" version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                viewBox="0 0 150 20" style="enable-background:new 0 0 150 20;" xml:space="preserve">
+                <style type="text/css">
+                .st0{fill:#ED1C24;stroke:#ED1C24;stroke-miterlimit:10;}
+                .st1{fill:#ED1C24;}
+                .st2{font-family:'MyriadPro-Regular';}
+                .st3{font-size:20px;}
+                </style>
+                <line class="st0" x1="35.5" y1="8.6" x2="50.5" y2="8.6"/>
+                <text transform="matrix(1 0 0 1 54.7401 13.87)" class="st1 st2 st3">zone</text>
+                <line class="st0" x1="36" y1="8.1" x2="36" y2="18.8"/>
+                <line class="st0" x1="114.2" y1="8.1" x2="114.2" y2="18.8"/>
+                <line class="st0" x1="99.5" y1="8.6" x2="114.5" y2="8.6"/>
+              </svg>
+              <div class="zone-btn">    
+                <button class="btn_zone  ripple overlay" style="margin-right:20px;" @click=${() => this._media_player_service("volume_down")}>1</button>
+                <button class="btn_zone  ripple overlay" style="margin-left:20px;" @click=${() => this._media_player_service("volume_down")}>2</button>
+              </div>
+          </div>
+      <!--        <div class="grid-container-input-mode">
                
                 <label>INPUT</label>
                 <label>SOUND MODE</label>
@@ -55,12 +80,19 @@ class CustomAmpliPanel extends LitElement {
                 </div> 
 
 
+              </div>  -->
+              <div class="grid-container-display">
+                <label>mode</label>
+                <label>${stateObj.attributes.sound_mode}</label>
+                <label>type</label>
+                <label>${stateObj.attributes.media_content_type}</label>
+                <label class="display-vol">${stateObj.attributes.volume_level}</label>
               </div>
 
               <div class="grid-container-slider-1-command"  style="margin-left:50px;">
                 <button class="onoff  ${stateObj.state === "on" ? 'btn_command-on' : 'btn_command ripple overlay'}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? 'white' : 'red'};"</button>
                 <button class="vol-up btn_command  ripple overlay" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:menu-up"</button>
-                <button class="mute btn_command  ripple overlay" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._button("MUTE")}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
+                <button class="mute btn_command  ripple overlay" Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute(stateObj)}><span class="${stateObj.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
                 <button class="vol-down btn_command  ripple overlay" @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:menu-down" </button>
               </div>
 
@@ -132,6 +164,13 @@ _media_player_service(service) {
   });
 }
 
+_media_player_toggle_mute(stateObj) {
+  this.hass.callService("media_player", "volume_mute", {
+      entity_id: this.config.entity,
+      is_volume_muted: !stateObj.attributes.is_volume_muted
+  });
+}
+
 
   setConfig(config) {
     if (!config.entity) {
@@ -149,6 +188,8 @@ _media_player_service(service) {
   static get styles() {
     return css`
     button:focus {outline:0;}
+
+
 
     /*Create ripple effec*/
     
@@ -202,7 +243,39 @@ _media_player_service(service) {
       justify-content: center;
    //   background-color: red;
       margin: auto;
+      margin-bottom: 50px;
+      padding-right: 20px;
+      border: solid 2px black;
     }
+
+
+    .grid-container-power {
+      display: grid;
+      grid-template-columns: 150px;
+      grid-template-rows: 50px 80px auto 80px 80px 32px 48px;
+      height: 528px;
+      align-items: center;
+      justify-content: center;
+
+ //     margin: auto;
+ //     padding: 0px 20px 0px 20px;
+ //     margin-bottom: 7px;
+   //   overflow: hidden;
+      place-items: center;
+      background-color: black;
+      grid-template-areas:
+        "."
+        "power"
+        "."
+        "input"
+        "sound"
+        "label"
+        "zone-btn";
+
+
+    }
+
+
     .grid-container-input-mode {
       display: grid;
       grid-template-columns: auto auto;
@@ -213,6 +286,21 @@ _media_player_service(service) {
  //     margin-bottom: 7px;
       overflow: hidden;
       height: 528px;
+    }
+
+    .grid-container-display {
+      display: grid;
+      grid-template-columns: 80px 200px 80px 200px auto;
+      grid-template-rows: 50px 50px;
+      background-color: transparent;
+      width: 700px;
+ //     padding: 0px 20px 0px 20px;
+ //     margin-bottom: 7px;
+      overflow: hidden;
+      background-color: yellow;
+      grid-template-areas:
+        "mode dmode type dtype vol"
+        "zone2 zone2vol . . vol";
     }
 
 
@@ -275,8 +363,54 @@ _media_player_service(service) {
       justify-content:center;
       place-items: center;
       padding: 5px;
+      width: 150px;
+      background-color: red;
       
     }
+
+    .power {
+      grid-area: power;
+    }
+    .input {
+      grid-area: input;
+    }
+    .sound {
+      grid-area: sound;
+    }
+    .text-zone {
+      grid-area: label;
+    }
+    .zone-btn {
+      grid-area: zone-btn;
+      display: flex;
+      width: 100%;
+    }
+    .display-mode {
+      grid-area: mode;
+      }
+    .display-$mode {
+      grid-area: $mode;
+      }
+    .display-$type {
+      grid-area: $type;
+      }
+    .display-vol {
+ //     grid-area: vol;
+      grid-column-start: 5;
+      grid-column-end: 6;
+      grid-row-start: 1;
+      grid-row-end: 3;
+     font-family: displayFont;
+      
+      font-size: 60px;
+      color: red;
+      }
+
+      @font-face {
+        font-family: displayFont;
+        src: url(Open 24 Display St.ttf);
+      }
+
 
     .onoff { 
       grid-column-start: 1;
@@ -348,6 +482,20 @@ _media_player_service(service) {
       
     }
 
+    .btn_zone {
+      background-color: var(--remote-button-color);
+      color: var(--remote-text-color);
+      font-size: 14px;
+      width: 40px;
+      height: 40px;
+      border-width: 0px;
+      border-radius: 50%;
+      place-items: center;
+      display: block;
+      cursor: pointer;
+      margin: auto;
+//      border: solid 2px var(--remote-color);
+    }
     .btn_command {
       background-color: var(--remote-button-color);
       color: var(--remote-text-color);

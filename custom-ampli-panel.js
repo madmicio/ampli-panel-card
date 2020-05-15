@@ -89,7 +89,7 @@ class CustomAmpliPanel extends LitElement {
           </div>
 
           ${this._show_inputs ? html`
-<!-- ######################################################### SOUND PANEL ################################ -->
+<!-- ######################################################### INPUTS PANEL ################################ -->
               <div class="media-content-panel inset">
                 <div class="grid-container">
                   ${stateObj.attributes.source_list.map(source => html`

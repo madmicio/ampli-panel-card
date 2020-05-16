@@ -3,40 +3,41 @@ import {
     html,
     css
 } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+
 class CustomAmpliPanel extends LitElement {
-  
-  static get properties() {
-    return {
-      hass: {},
-      config: {},
-      active: {},
-      _show_inputs: {},
-      _show_sound_output: {}
-    };
-  }
-  
-  constructor() {
-    super();
-    this._show_sound_output = false;
-    this._show_inputs = false;
-  }
-  
-  render() {
-    const stateObj = this.hass.states[this.config.entity];
-    const stateObj2 = this.hass.states[this.config.zone2];
-    var coverWidth = this.config.coverWidth ? this.config.coverWidth : "70px";
-    var coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
-    
-    
-    return html`
+
+    static get properties() {
+        return {
+            hass: {},
+            config: {},
+            active: {},
+            _show_inputs: {},
+            _show_sound_output: {}
+        };
+    }
+
+    constructor() {
+        super();
+        this._show_sound_output = false;
+        this._show_inputs = false;
+    }
+
+    render() {
+        const stateObj = this.hass.states[this.config.entity];
+        const stateObj2 = this.hass.states[this.config.zone2];
+        const coverWidth = this.config.coverWidth ? this.config.coverWidth : "70px";
+        const coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
+
+
+        return html`
           <div class="card">
             <div class="page">
               ${this.config.zone2 ? html`
-                <div class="grid-container-power" style="${stateObj2.state === "on"? 'width: 120px;': 'width: 280px;'}">
+                <div class="grid-container-power" style="${stateObj2.state === "on" ? 'width: 120px;' : 'width: 280px;'}">
                   <button style="border-radius:50%;" class="power ${stateObj.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? '#00d2ff' : 'red'};"</button>
                   <button style="border-radius:50%;" class="zone2-power ${stateObj2.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${stateObj2.state === "on" ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}>zone2</button>
-                  <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_inputs = !this._show_inputs}>INPUT</button>
-                  <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_sound_output = !this._show_sound_output}>SOUND</button>
+                  <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
+                  <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
                   <svg style="transform: scale(0.55);" class="text-zone" version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                     viewBox="0 0 150 20" style="enable-background:new 0 0 150 20;" xml:space="preserve">
                     <style type="text/css">
@@ -59,8 +60,8 @@ class CustomAmpliPanel extends LitElement {
           ` : html`
             <div class="grid-container-power" style="width: 280px;">
               <button style="border-radius:50%;" class="power ${stateObj.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? '#00d2ff' : 'red'};"</button>
-              <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_inputs = !this._show_inputs}>INPUT</button>
-              <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_sound_output = !this._show_sound_output}>SOUND</button>
+              <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
+              <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
             </div>
           `}
 
@@ -94,9 +95,9 @@ class CustomAmpliPanel extends LitElement {
                 <div class="grid-container">
                   ${stateObj.attributes.source_list.map(source => html`
                   <button class="${stateObj.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
-                      this._select_source(source);
-                      this._show_inputs = false;
-                  }}}>${source}</button>
+            this._select_source(source);
+            this._show_inputs = false;
+        }}}>${source}</button>
                   `)}
                 </div> 
               </div>
@@ -109,9 +110,9 @@ class CustomAmpliPanel extends LitElement {
                 <div class="grid-container">
                   ${stateObj.attributes.sound_mode_list.map(sound => html`
                   <button class="${stateObj.attributes.sound_mode === sound ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound   ripple'}" @click=${() => {
-                      this._select_sound_mode(sound);
-                      this._show_sound_output  = false;
-                  }}}>${sound}</button>
+            this._select_sound_mode(sound);
+            this._show_sound_output = false;
+        }}}>${sound}</button>
                   `)}
                 </div> 
               </div>
@@ -151,8 +152,8 @@ class CustomAmpliPanel extends LitElement {
           
 <!-- ######################################################### Rigth Column ################################ -->
         ${this.config.zone2 ? html`  
-          ${stateObj.state === "on"? html`  
-          <div class="section-slider" style="${stateObj2.state === "on"? 'margin: 0px 10px 0px 25px;': 'margin: 0px 30px 0px 30px;'}">  
+          ${stateObj.state === "on" ? html`  
+          <div class="section-slider" style="${stateObj2.state === "on" ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
                   
                   <div class="grid-container-slider-1-command">
                     <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
@@ -163,14 +164,14 @@ class CustomAmpliPanel extends LitElement {
 
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level*100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                     </div> 
                   </div> 
 
-              ${stateObj2.state === "on"? html`
+              ${stateObj2.state === "on" ? html`
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj2.state === "close" ? 0 : Math.round(stateObj2.attributes.volume_level*100)}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
+                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj2.state === "close" ? 0 : Math.round(stateObj2.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
                   </div>    
                   </div> 
                   <div class="grid-container-slider-1-command">
@@ -188,7 +189,7 @@ class CustomAmpliPanel extends LitElement {
               </div>
             `}
             ` : html`
-            ${stateObj.state === "on"? html`  
+            ${stateObj.state === "on" ? html`  
             <div class="section-slider" style="margin: 0px 30px 0px 30px">  
                     <div class="grid-container-slider-1-command">
                       <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
@@ -198,7 +199,7 @@ class CustomAmpliPanel extends LitElement {
                     </div>
                      <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                         <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                        <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level*100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                        <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                       </div> 
                     </div> 
                 </div>
@@ -217,66 +218,76 @@ class CustomAmpliPanel extends LitElement {
           </div>
         </div>
     `;
-  }
-    
-  updated() {}
-
-  _select_source(source) {
-    this.hass.callService("media_player", "select_source", {
-        entity_id: this.config.entity,
-        source: source
-    });
-}
-_select_sound_mode(sound) {
-  this.hass.callService("media_player", "select_sound_mode", {
-      entity_id: this.config.entity,
-      sound_mode: sound
-  });
-}
-
-_volume_set(state, value) {
-  this.hass.callService("media_player", "volume_set", {
-      entity_id: state.entity_id,
-      volume_level: value / 100
-  });
-}
-
-_media_player_service(service) {
-  this.hass.callService("media_player", service, {
-      entity_id: this.config.entity,
-  });
-}
-
-_media_player_service_zone2(service) {
-  this.hass.callService("media_player", service, {
-      entity_id: this.config.zone2,
-  });
-}
-
-_media_player_toggle_mute(stateObj) {
-  this.hass.callService("media_player", "volume_mute", {
-      entity_id: this.config.entity,
-      is_volume_muted: !stateObj.attributes.is_volume_muted
-  });
-}
-
-
-
-  setConfig(config) {
-    if (!config.entity) {
-        console.log("Invalid configuration");
     }
-    this.config = config;
-  }
-  
+
+    updated() {
+    }
+
+    _show_hide_inputs() {
+        this._show_sound_output = false;
+        this._show_inputs = !this._show_inputs;
+    }
+
+    _show_hide_sound_mode() {
+        this._show_inputs = false;
+        this._show_sound_output = !this._show_sound_output;
+    }
+
+    _select_source(source) {
+        this.hass.callService("media_player", "select_source", {
+            entity_id: this.config.entity,
+            source: source
+        });
+    }
+
+    _select_sound_mode(sound) {
+        this.hass.callService("media_player", "select_sound_mode", {
+            entity_id: this.config.entity,
+            sound_mode: sound
+        });
+    }
+
+    _volume_set(state, value) {
+        this.hass.callService("media_player", "volume_set", {
+            entity_id: state.entity_id,
+            volume_level: value / 100
+        });
+    }
+
+    _media_player_service(service) {
+        this.hass.callService("media_player", service, {
+            entity_id: this.config.entity,
+        });
+    }
+
+    _media_player_service_zone2(service) {
+        this.hass.callService("media_player", service, {
+            entity_id: this.config.zone2,
+        });
+    }
+
+    _media_player_toggle_mute(stateObj) {
+        this.hass.callService("media_player", "volume_mute", {
+            entity_id: this.config.entity,
+            is_volume_muted: !stateObj.attributes.is_volume_muted
+        });
+    }
 
 
-  getCardSize() {
-    return this.config.entities.length + 1;
-  }
-  
-  static get styles() {
-    return css`
+    setConfig(config) {
+        if (!config.entity) {
+            console.log("Invalid configuration");
+        }
+        this.config = config;
+    }
+
+
+    getCardSize() {
+        return this.config.entities.length + 1;
+    }
+
+    static get styles() {
+        return css`
     button:focus {outline:0;}
 
 
@@ -833,8 +844,8 @@ _media_player_toggle_mute(stateObj) {
 
       
     `;
-  }  
-  
+    }
+
 }
 
 customElements.define('custom-ampli-panel', CustomAmpliPanel);

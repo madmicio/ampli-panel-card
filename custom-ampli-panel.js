@@ -29,13 +29,15 @@ class CustomAmpliPanel extends LitElement {
         const coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
 
 
+        const state1on = !["off", "idle"].includes(stateObj.state);
+        const state2on = !["off", "idle"].includes(stateObj2.state);
         return html`
           <div class="card">
             <div class="page">
               ${this.config.zone2 ? html`
-                <div class="grid-container-power" style="${stateObj2.state === "on" ? 'width: 120px;' : 'width: 280px;'}">
-                  <button style="border-radius:50%;" class="power ${stateObj.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? '#00d2ff' : 'red'};"</button>
-                  <button style="border-radius:50%;" class="zone2-power ${stateObj2.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${stateObj2.state === "on" ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}>zone2</button>
+                <div class="grid-container-power" style="${state2on ? 'width: 120px;' : 'width: 280px;'}">
+                  <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
+                  <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}>zone2</button>
                   <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
                   <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
                   <svg style="transform: scale(0.55);" class="text-zone" version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -59,7 +61,7 @@ class CustomAmpliPanel extends LitElement {
               </div>
           ` : html`
             <div class="grid-container-power" style="width: 280px;">
-              <button style="border-radius:50%;" class="power ${stateObj.state === "on" ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${stateObj.state === "on" ? '#00d2ff' : 'red'};"</button>
+              <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
               <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
               <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
             </div>
@@ -70,21 +72,21 @@ class CustomAmpliPanel extends LitElement {
                           
           <div class="central-column-display"  style="height: 210px;">
               <div class="grid-container-display">
-              ${stateObj.state === "on" ? html`
+              ${state1on ? html`
                 <label class="upper-display-text">mode:</label>
                 <label class="upper-display-text-light">${stateObj.attributes.sound_mode}</label>
                 <label class="upper-display-text">type:</label>
                 <label class="upper-display-text-light" >${stateObj.attributes.media_content_type}</label>
               ` : html`
               `}
-                <label class="display-vol">${stateObj.state === "on" ? (stateObj.attributes.volume_level * 100) : ' '}</label>
+                <label class="display-vol">${state1on ? Math.round(stateObj.attributes.volume_level * 100) : ' '}</label>
                 ${this.config.zone2 ? html`
                 <label class="upper-display-text">zone 2:</label>
-                <label class="upper-display-text-light">${stateObj2.state === "on" ? (stateObj2.attributes.volume_level * 100) : 'off'}</label>
+                <label class="upper-display-text-light">${state2on ? Math.round(stateObj2.attributes.volume_level * 100) : 'off'}</label>
                 ` : html`
                 `}
               </div>
-              <label class="display-text title">${stateObj.state === "on" ? stateObj.attributes.source : 'MAIN OFF'}</label>
+              <label class="display-text title">${state1on ? stateObj.attributes.source : 'MAIN OFF'}</label>
               <label class="display-text title">${stateObj.attributes.sound_mode_raw}</label>
               
           </div>
@@ -152,8 +154,8 @@ class CustomAmpliPanel extends LitElement {
           
 <!-- ######################################################### Rigth Column ################################ -->
         ${this.config.zone2 ? html`  
-          ${stateObj.state === "on" ? html`  
-          <div class="section-slider" style="${stateObj2.state === "on" ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
+          ${state1on ? html`  
+          <div class="section-slider" style="${state2on ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
                   
                   <div class="grid-container-slider-1-command">
                     <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
@@ -164,14 +166,14 @@ class CustomAmpliPanel extends LitElement {
 
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? Math.round(stateObj.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                     </div> 
                   </div> 
 
-              ${stateObj2.state === "on" ? html`
+              ${state2on ? html`
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj2.state === "close" ? 0 : Math.round(stateObj2.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
+                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state2on ? Math.round(stateObj2.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
                   </div>    
                   </div> 
                   <div class="grid-container-slider-1-command">
@@ -189,7 +191,7 @@ class CustomAmpliPanel extends LitElement {
               </div>
             `}
             ` : html`
-            ${stateObj.state === "on" ? html`  
+            ${state1on ? html`  
             <div class="section-slider" style="margin: 0px 30px 0px 30px">  
                     <div class="grid-container-slider-1-command">
                       <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
@@ -199,7 +201,7 @@ class CustomAmpliPanel extends LitElement {
                     </div>
                      <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                         <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                        <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${stateObj.state === "close" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                        <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? Math.round(stateObj.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                       </div> 
                     </div> 
                 </div>
@@ -293,13 +295,13 @@ class CustomAmpliPanel extends LitElement {
 
 
     /*Create ripple effec*/
-    
+
     .ripple {
       position: relative;
       overflow: hidden;
       transform: translate3d(0, 0, 0);
     }
-    
+
     .ripple:after {
       content: "";
       display: block;
@@ -317,7 +319,7 @@ class CustomAmpliPanel extends LitElement {
       opacity: 0;
       transition: transform .5s, opacity 1s;
     }
-    
+
     .ripple:active:after {
       transform: scale(0, 0);
       opacity: .3;
@@ -328,11 +330,11 @@ class CustomAmpliPanel extends LitElement {
   //    justify-content: center;
       width: 100%;
       height: 100%;
-      
+
     }
     .page {
       display: inline-block
-      flex-direction: row; 
+      flex-direction: row;
       display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
       display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
       display: -ms-flexbox;      /* TWEENER - IE 10 */
@@ -408,7 +410,7 @@ class CustomAmpliPanel extends LitElement {
     .section-slider {
 //      width:90%;
       display: inline-block
-      flex-direction: row; 
+      flex-direction: row;
       display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
       display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
       display: -ms-flexbox;      /* TWEENER - IE 10 */
@@ -416,11 +418,11 @@ class CustomAmpliPanel extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       padding: 0px 10px 0px 10px;
       background-color: #171717;
       border-radius: 15px;
-      box-shadow: inset 4px 4px 4px #0d0d0d, 
+      box-shadow: inset 4px 4px 4px #0d0d0d,
       inset -4px -4px 2px #212121;
       height: 498px;
     }
@@ -428,7 +430,7 @@ class CustomAmpliPanel extends LitElement {
     .section-btn-vol {
       width:186px;
             display: inline-block
-            flex-direction: row; 
+            flex-direction: row;
             display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
             display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
             display: -ms-flexbox;      /* TWEENER - IE 10 */
@@ -436,13 +438,13 @@ class CustomAmpliPanel extends LitElement {
             display: flex;
             align-items: center;
             justify-content: center;
-            
+
             padding: 0px 10px 0px 10px;
             background-color: #171717;
             border-radius: 15px;
             height: 498px;
             margin: 0px 30px 0px 30px;
-            
+
           }
 
     .grid-container-slider-1-command {
@@ -458,7 +460,7 @@ class CustomAmpliPanel extends LitElement {
 
 
     }
-    
+
 
     .grid-container {
       display: grid;
@@ -488,7 +490,7 @@ class CustomAmpliPanel extends LitElement {
     .grid-container::-webkit-scrollbar {
       -ms-overflow-style: none;
     }
- 
+
     .grid-item {
       // border: 1px solid rgba(0, 0, 0, 0.8);
       overflow: hidden;
@@ -499,7 +501,7 @@ class CustomAmpliPanel extends LitElement {
       padding: 5px;
       width: 150px;
 
-      
+
     }
 
     .central-column {
@@ -510,7 +512,7 @@ class CustomAmpliPanel extends LitElement {
 
     .media-content-panel {
       margin-top:20px;
-      
+
       display: flex;
       flex-direction: column;
       background-color: #171717;
@@ -518,7 +520,7 @@ class CustomAmpliPanel extends LitElement {
 
     .inset {
       height: 240px;
-      box-shadow: inset 4px 4px 4px #0d0d0d, 
+      box-shadow: inset 4px 4px 4px #0d0d0d,
             inset -4px -4px 2px #212121;
     }
 
@@ -572,7 +574,7 @@ class CustomAmpliPanel extends LitElement {
       width: 610px;
     }
     .display-text{
-      
+
       text-align: center;
       color: #00d2ff;
       text-shadow: 0 0 25px #00d2ff, 0 0 25px #00d2ff;
@@ -623,58 +625,51 @@ class CustomAmpliPanel extends LitElement {
       grid-column-end: 6;
       grid-row-start: 1;
       grid-row-end: 3;
-      font-family: displayFont;
+      font-family: 'displayFont';
   //    font-family: 'Lobster', cursive;
   //    font-family: 'Yellowtail', cursive;
-      
+
       text-shadow: 0 0 25px #00d2ff, 0 0 25px #00d2ff;
       font-size: 60px;
    //   margin-top: 20px;
       color: #00d2ff;
-      
+
       }
 
-
-      @font-face {
-        font-family: displayFont;
-        src: url('https://fonts.googleapis.com/css2?family=Monoton');
-      } 
-
-
-    .onoff { 
+    .onoff {
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 1;
-      grid-row-end: 2;  
+      grid-row-end: 2;
     }
-    .vol-up{ 
+    .vol-up{
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 3;
-      grid-row-end: 4;  
+      grid-row-end: 4;
     }
 
-    .mute{ 
+    .mute{
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 4;
-      grid-row-end: 5;  
+      grid-row-end: 5;
     }
 
-    .vol-down{ 
+    .vol-down{
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 5;
-      grid-row-end: 6;  
+      grid-row-end: 6;
     }
 
     .item-2 {
       grid-column-start: 1;
       grid-column-end: 2;
       grid-row-start: 5;
-      grid-row-end: 6;  
+      grid-row-end: 6;
     }
-    
+
     label {
     font-size: 24px;
     margin: 10px 0px 0px 4%;
@@ -702,14 +697,14 @@ class CustomAmpliPanel extends LitElement {
       margin: auto;
       border-radius: 15px;
       border-width: 1px;
-      
-      
+
+
     }
 
-    
+
 
     .btn_zone {
-      background-color: #262628;      
+      background-color: #262628;
       color: #BDC1C6;
       font-size: 14px;
       width: 40px;
@@ -724,9 +719,9 @@ class CustomAmpliPanel extends LitElement {
       font-size: 12px;
       width: 70px;
       height: 70px;
-      
+
       border-radius: 15px;
-      
+
       margin: 5px;
 //      border: solid 2px var(--remote-color);
     }
@@ -762,7 +757,7 @@ class CustomAmpliPanel extends LitElement {
     }
 
     .btn-flat {
-      background-color: #262628;  
+      background-color: #262628;
       color: #BDC1C6;
       font-size: 18px;
       border-radius: 15px;
@@ -770,7 +765,7 @@ class CustomAmpliPanel extends LitElement {
       cursor: pointer;
       width: 70%;
       height: 65%;
-    }  
+    }
 
     .zona-title {
       font-size: 16px;
@@ -778,17 +773,17 @@ class CustomAmpliPanel extends LitElement {
       margin-top: 0px;
       margin: auto;
       color: rgba(189, 193, 198, 0.3);
- 
+
     }
     .range-holder {
       height: var(--slider-height);
       position:relative;
       display: block;
-      
+
     }
     .range-holder input[type="range"] {
       outline: 0;
-      box-shadow:  -2px 2px 4px #0d0d0d, 
+      box-shadow:  -2px 2px 4px #0d0d0d,
              2px -2px 2px #212121;
       border-radius: var(--ha-card-border-radius);
       width: var(--slider-height);
@@ -840,9 +835,9 @@ class CustomAmpliPanel extends LitElement {
         border-color: #262628;
         box-shadow: -350px 0 0 350px #262628, inset 0 0 0 80px #BDC1C6;
     }
-    
 
-      
+
+
     `;
     }
 

@@ -34,7 +34,7 @@ class AmpliPanelCard extends LitElement {
           <div class="page">
             ${this.config.zone2 ? html`
               <div class="grid-container-power" style="${state2on ? 'width: 120px;' : 'width: 280px;'}">
-                <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on ' : 'btn btn_command  ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
+                <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on ' : 'btn btn_command  ripple  '}" @click=${() => this._toggle_media_player()}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
                 <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on ' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}>zone2</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
@@ -59,7 +59,7 @@ class AmpliPanelCard extends LitElement {
             </div>
         ` : html`
           <div class="grid-container-power" style="width: 280px;">
-            <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._media_player_service("toggle")}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
+            <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on' : 'btn btn_command ripple  '}" @click=${() => this._toggle_media_player()}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
             <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
             <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
           </div>
@@ -77,10 +77,10 @@ class AmpliPanelCard extends LitElement {
                   <label class="upper-display-text-light" >${stateObj.attributes.media_content_type}</label>
                   ` : html`
                   `}
-                    <label class="display-vol">${state1on ? Math.round(stateObj.attributes.volume_level * 100).toFixed(1) : ' '}</label>
+                    <label class="display-vol">${state1on ? (stateObj.attributes.volume_level * 100).toFixed(1) : ' '}</label>
                     ${this.config.zone2 ? html`
                     <label class="upper-display-text">zone 2:</label>
-                    <label class="upper-display-text-light">${state2on ? Math.round(stateObj2.attributes.volume_level * 100).toFixed(1) : 'off'}</label>
+                    <label class="upper-display-text-light">${state2on ? (stateObj2.attributes.volume_level * 100).toFixed(1) : 'off'}</label>
                     ` : html`
                   `}
                 </div>
@@ -219,7 +219,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
                       </div>
                       <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                           <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                          <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? Math.round(stateObj.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                          <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? (stateObj.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                         </div> 
                       </div> 
                   </div>
@@ -241,6 +241,12 @@ ${stateObj.attributes.source === "Spotify" ? html`
     }
 
     updated() {
+    }
+
+    _toggle_media_player() {
+        this._media_player_service("toggle");
+        this._show_inputs = false;
+        this._show_sound_output = false;
     }
 
     _show_hide_inputs() {

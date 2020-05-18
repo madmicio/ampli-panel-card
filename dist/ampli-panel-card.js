@@ -858,7 +858,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
           height: 70px;
           border-radius: 15px;
           margin: 5px;
-          border-width: 1px;
+          border-width: 2px;
         }
       
         .btn-vol {

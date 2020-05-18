@@ -753,16 +753,16 @@ ${stateObj.attributes.source === "Spotify" ? html`
           border-width: 1px;
         }
       
-          .btn_hdmi-sound-on {
-            background-color: rgba( 0,0,0,0.3);
-            color: #00d2ff;
-            text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 15px #00d2ff;
-          font-size: 12px;
-          width: 140px;
-          height: 30px;
-          margin: auto;
-          border-radius: 15px;
-          border-width: 1px;
+      .btn_hdmi-sound-on {
+       background-color: rgba( 0,0,0,0.3);
+       color: #00d2ff;
+       text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 15px #00d2ff;
+       font-size: 12px;
+       width: 140px;
+       height: 30px;
+       margin: auto;
+       border-radius: 15px;
+       border-width: 1px;
       
       
         }
@@ -788,9 +788,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
           background-image: url("/hacsfiles/ampli-panel-card/btn1.jpg");
           background-position: center; 
           border-radius: 15px;
-      
           margin: 5px;
-      //      border: solid 2px var(--remote-color);
         }
       
           .btn_command-on {
@@ -808,7 +806,6 @@ ${stateObj.attributes.source === "Spotify" ? html`
         .btn-vol {
           background-color: black;
           background-image: url("/hacsfiles/ampli-panel-card/vol1.jpg");
-      /*    background-repeat: no-repeat;
           background-attachment: fixed; */
           background-position: center; 
           border-width: 4px;
@@ -821,12 +818,9 @@ ${stateObj.attributes.source === "Spotify" ? html`
         }
       
         .btn {
-      //      background-color: #333336;
           place-items: center;
           display: block;
           cursor: pointer;
-          
-      //     border: 1px solid red;
           border-color: black;
         }
       

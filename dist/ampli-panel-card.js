@@ -68,7 +68,7 @@ class AmpliPanelCard extends LitElement {
 <!-- ################################################################ CENTRAL COLUMN ############################################################ -->
             <div class="central-column">
                                     
-            <div class="central-column-display"  style="height: 210px; background:${state1on ? 'black;' : 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(17,17,17,1) 48%, rgba(0,0,0,1) 61%, rgba(0,0,0,1) 100%);'}">
+            <div class="central-column-display"  style="height: 210px; background:${state1on ? 'black;' : 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(17,17,17,1) 50%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 100%);'}">
                 <div class="grid-container-display">
                 ${state1on ? html`
                   <label class="upper-display-text">mode:</label>

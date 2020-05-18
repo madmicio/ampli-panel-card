@@ -1,8 +1,6 @@
-import {
-    LitElement,
-    html,
-    css
-} from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
+var LitElement = LitElement || Object.getPrototypeOf(customElements.get("ha-panel-lovelace"));
+var html = LitElement.prototype.html;
+var css = LitElement.prototype.css;
 
 class AmpliPanelCard extends LitElement {
 
@@ -29,8 +27,8 @@ class AmpliPanelCard extends LitElement {
         const coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
 
 
-        const state1on = !["off", "idle"].includes(stateObj.state);
-        const state2on = !["off", "idle"].includes(stateObj2.state);
+        const state1on = this.config.entity && !["off", "idle"].includes(stateObj.state);
+        const state2on = this.config.zone2 && !["off", "idle"].includes(stateObj2.state);
         return html`
           <div class="card">
             <div class="page">

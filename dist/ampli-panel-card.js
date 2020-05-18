@@ -68,7 +68,7 @@ class AmpliPanelCard extends LitElement {
 <!-- ################################################################ CENTRAL COLUMN ############################################################ -->
             <div class="central-column">
                                     
-            <div class="central-column-display"  style="height: 210px;">
+            <div class="central-column-display"  style="height: 210px; background:${state1on ? 'black;' : 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(17,17,17,1) 48%, rgba(0,0,0,1) 61%, rgba(0,0,0,1) 100%);'}">
                 <div class="grid-container-display">
                 ${state1on ? html`
                   <label class="upper-display-text">mode:</label>
@@ -106,7 +106,7 @@ class AmpliPanelCard extends LitElement {
                   <div class="bar_value" style="width:${100 * ((stateObj.attributes.media_title - 88) / (108 - 88))}%;">|</div>
                 </div>
               ` : html`
-                <label class="display-text title">${state1on ? stateObj.attributes.source : 'MAIN OFF'}</label>
+                <label style="${state1on ? ' ' : 'opacity: 0.3;'}"class="display-text title">${state1on ? stateObj.attributes.source : 'MAIN OFF'}</label>
                 <label class="display-text title">${stateObj.attributes.sound_mode_raw}</label>
                 `}
             </div>

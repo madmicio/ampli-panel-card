@@ -4,7 +4,7 @@ import {
     css
 } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
 
-class CustomAmpliPanel extends LitElement {
+class AmpliPanelCard extends LitElement {
 
     static get properties() {
         return {
@@ -843,4 +843,4 @@ class CustomAmpliPanel extends LitElement {
 
 }
 
-customElements.define('custom-ampli-panel', CustomAmpliPanel);
+customElements.define('ampli-panel-card', AmpliPanelCard);

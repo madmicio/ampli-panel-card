@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'displayFont';
+  src: url('DS-DIGII.TTF') format('truetype');
+}
+
+@font-face {
+  font-family: 'ledFont';
+  src: url('LEDCalculator.ttf') format('truetype');
+}
+

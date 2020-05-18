@@ -79,10 +79,10 @@ class CustomAmpliPanel extends LitElement {
                 <label class="upper-display-text-light" >${stateObj.attributes.media_content_type}</label>
               ` : html`
               `}
-                <label class="display-vol">${state1on ? Math.round(stateObj.attributes.volume_level * 100) : ' '}</label>
+                <label class="display-vol">${state1on ? Math.round(stateObj.attributes.volume_level * 100).toFixed(1) : ' '}</label>
                 ${this.config.zone2 ? html`
                 <label class="upper-display-text">zone 2:</label>
-                <label class="upper-display-text-light">${state2on ? Math.round(stateObj2.attributes.volume_level * 100) : 'off'}</label>
+                <label class="upper-display-text-light">${state2on ? Math.round(stateObj2.attributes.volume_level * 100).toFixed(1) : 'off'}</label>
                 ` : html`
                 `}
               </div>
@@ -166,14 +166,14 @@ class CustomAmpliPanel extends LitElement {
 
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? Math.round(stateObj.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
+                      <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? stateObj.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                     </div> 
                   </div> 
 
               ${state2on ? html`
                   <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
                       <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state2on ? Math.round(stateObj2.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
+                      <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state2on ? stateObj2.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
                   </div>    
                   </div> 
                   <div class="grid-container-slider-1-command">

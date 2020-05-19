@@ -25,6 +25,8 @@ class AmpliPanelCard extends LitElement {
         const stateObj2 = this.hass.states[this.config.zone2];
         const coverWidth = this.config.coverWidth ? this.config.coverWidth : "70px";
         const coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
+        const brand = this.config.brand ? this.config.brand : "Receiver Name";
+        const info = this.config.info ? this.config.info : "Receiver description";
 
 
         const state1on = this.config.entity && !["off", "idle"].includes(stateObj.state);
@@ -163,7 +165,10 @@ ${stateObj.attributes.source === "Spotify" ? html`
 <!-- ######################################################### DEFAULT PANEL ################################ -->
               <div class="media-content-panel double-border">
               <button class="btn" style="background-color: transparent; height: 50px; border-width: 0px;" @click=${() => this._show_hide_inputs()} ><ha-icon icon="mdi:drag-horizontal-variant" style="color: #121212; width: 50px; height: 50px;"/></button>
-              <p class="brand-text">Marantz SR6010</p>
+              <div class="seciotn-brand">
+                <p class="brand-text">${brand}</p>
+                <p class="brand-text-description">${info}</p>
+                </div>
               </div>
                 `}
               `}
@@ -650,45 +655,28 @@ ${stateObj.attributes.source === "Spotify" ? html`
       
         }
       
+        .seciotn-brand {
+          display: flex;
+          flex-direction: row;
+        }      
         .brand-text {
-        margin-top: 160px;
-          padding: 20px;
+          margin-top: 140px;
           font-size: 22px;
           text-align: left;
-          
-          background-image:
-            -webkit-repeating-linear-gradient(top,
-              hsla(0,0%,100%,0) 0%,
-              hsla(0,0%,100%,0) 3%,
-              hsla(0,0%,100%,.1) 4.5%),
-            -webkit-repeating-linear-gradient(top, 
-              hsla(0,0%,0%,0) 0%,
-              hsla(0,0%,0%,0) 2%,
-              hsla(0,0%,0%,.03) 2.5%),
-            -webkit-repeating-linear-gradient(top,
-              hsla(0,0%,100%,0) 0%,
-              hsla(0,0%,100%,0) 0.6%,
-              hsla(0,0%,100%,.15) 1.2%),
-            linear-gradient(80deg,
-              #a6a6a6 0%,
-              #d9d9d9 45%,
-              #e0e0e0 55%,
-              #e0e0e0 65%,
-              #d9d9d9 75%,
-              #a6a6a6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-
-          font-family: 'futura';
-
-            color: #fff;
-// background-color: red;
-     //     color: #020202;
-        //  color: rgba(189, 193, 198, 0.3);
-
-      
-      
+          width: auto;
+          margin-left: 20px;
+          color: rgba(203,203,203, 0.8)
         }
+        .brand-text-description {
+          margin-top: 143px;
+          font-size: 12px;
+          text-align: left;
+          width: auto;
+          margin-left: 5px;
+          color: rgba(203,203,203, 0.8)
+        }
+          
+
       
         .title {
           font-size: 36px;

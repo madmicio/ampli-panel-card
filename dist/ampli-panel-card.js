@@ -10,13 +10,15 @@ class AmpliPanelCard extends LitElement {
             config: {},
             active: {},
             _show_inputs: {},
-            _show_sound_output: {}
+            _show_sound_output: {},
+            _show_inputs2: {}
         };
     }
 
     constructor() {
         super();
         this._show_sound_output = false;
+        this._show_inputs2 = false;
         this._show_inputs = false;
     }
 
@@ -25,6 +27,8 @@ class AmpliPanelCard extends LitElement {
         const stateObj2 = this.hass.states[this.config.zone2];
         const coverWidth = this.config.coverWidth ? this.config.coverWidth : "70px";
         const coverHeight = this.config.coverHeight ? this.config.coverHeight : "465px";
+        const brand = this.config.brand ? this.config.brand : "Receiver Name";
+        const info = this.config.info ? this.config.info : "Receiver description";
 
 
         const state1on = this.config.entity && !["off", "idle"].includes(stateObj.state);
@@ -33,28 +37,30 @@ class AmpliPanelCard extends LitElement {
         <div class="card">
           <div class="page">
             ${this.config.zone2 ? html`
-              <div class="grid-container-power" style="${state2on ? 'width: 120px;' : 'width: 280px;'}">
+              <div class="grid-container-power" style="${state1on && state2on ? 'width: 120px;' : 'width: 280px;'}">
+              <label class="main-title">MAIN</label>
+              <label class="zone2-title">ZONE 2</label>
                 <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on ' : 'btn btn_command  ripple  '}" @click=${() => this._toggle_media_player()}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
-                <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on ' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}>zone2</button>
+                <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on ' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}><ha-icon icon="mdi:power" style="color: ${state2on ? '#00d2ff' : 'red'};"</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
-                <svg style="transform: scale(0.55);" class="text-zone" version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                  viewBox="0 0 150 20" style="enable-background:new 0 0 150 20;" xml:space="preserve">
+                <svg class="text-zone" version="1.0" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                  width="80px" height="20px" viewBox="0 0 80 20" style="enable-background:new 0 0 80 20;" xml:space="preserve">
                   <style type="text/css">
-                  .st0{fill:rgba(189, 193, 198, 0.3);stroke:rgba(189, 193, 198, 0.3);stroke-miterlimit:10;}
-                  .st1{fill:rgba(189, 193, 198, 0.3);}
-                  .st2{font-family:'MyriadPro-Regular';}
-                  .st3{font-size:20px;}
+                  .st0{fill:rgba(203,203,203, 0.6);}
+                  .st1{font-family:'MyriadPro-Regular';}
+                  .st2{font-size:18px;}
+                  .st3{fill:rgba(203,203,203, 0.6);stroke:rgba(203,203,203, 0.6);stroke-miterlimit:10;}
                   </style>
-                  <line class="st0" x1="35.5" y1="8.6" x2="50.5" y2="8.6"/>
-                  <text transform="matrix(1 0 0 1 54.7401 13.87)" class="st1 st2 st3">zone</text>
-                  <line class="st0" x1="36" y1="8.1" x2="36" y2="18.8"/>
-                  <line class="st0" x1="114.2" y1="8.1" x2="114.2" y2="18.8"/>
-                  <line class="st0" x1="99.5" y1="8.6" x2="114.5" y2="8.6"/>
+                  <text transform="matrix(1 0 0 1 19.7401 13.87)" class="st0 st1 st2">zone</text>
+                  <line class="st3" x1="79.5" y1="9.5" x2="79.5" y2="20"/>
+                  <line class="st3" x1="64.5" y1="9" x2="80" y2="9"/>
+                  <line class="st3" x1="0.5" y1="9.5" x2="0.5" y2="20"/>
+                  <line class="st3" x1="0" y1="9" x2="15.5" y2="9"/>
                 </svg>
                 <div class="zone-btn">    
-                  <button class="btn btn_zone   ripple  " style="margin-right:20px;" @click=${() => this._media_player_service("volume_down")}>1</button>
-                  <button class="btn btn_zone   ripple  " style="margin-left:20px;" @click=${() => this._media_player_service("volume_down")}>2</button>
+                  <button class="btn btn_zone   ripple  " style="margin-right:20px;" @click=${() => this._show_inputs2 = false}>1</button>
+                  <button class="btn btn_zone   ripple  " style="margin-left:20px;" @click=${() => this._show_inputs2 = true}>2</button>
                 </div>
             </div>
         ` : html`
@@ -68,7 +74,7 @@ class AmpliPanelCard extends LitElement {
 <!-- ################################################################ CENTRAL COLUMN ############################################################ -->
             <div class="central-column">
                                     
-            <div class="central-column-display"  style="height: 210px;">
+            <div class="central-column-display"  style="height: 212px; background:${state1on ? 'black;' : 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(17,17,17,1) 50%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 100%);'}">
                 <div class="grid-container-display">
                 ${state1on ? html`
                   <label class="upper-display-text">mode:</label>
@@ -81,6 +87,8 @@ class AmpliPanelCard extends LitElement {
                     ${this.config.zone2 ? html`
                     <label class="upper-display-text">zone 2:</label>
                     <label class="upper-display-text-light">${state2on ? (stateObj2.attributes.volume_level * 100).toFixed(1) : 'off'}</label>
+                    <label class="upper-display-text">${state2on ? 'input 2:' : ' '}</label>
+                    <label class="upper-display-text-light">${state2on ? stateObj2.attributes.media_title : ' '}</label>
                     ` : html`
                   `}
                 </div>
@@ -106,7 +114,7 @@ class AmpliPanelCard extends LitElement {
                   <div class="bar_value" style="width:${100 * ((stateObj.attributes.media_title - 88) / (108 - 88))}%;">|</div>
                 </div>
               ` : html`
-                <label class="display-text title">${state1on ? stateObj.attributes.source : 'MAIN OFF'}</label>
+                <label style="padding-bottom: 10px; ${state1on ? ' ' : 'opacity: 0.3;'}" class="display-text title">${state1on ? stateObj.attributes.source : 'MAIN OFF'}</label>
                 <label class="display-text title">${stateObj.attributes.sound_mode_raw}</label>
                 `}
             </div>
@@ -114,7 +122,50 @@ class AmpliPanelCard extends LitElement {
             ${this._show_inputs ? html`
 <!-- ######################################################### INPUTS PANEL ################################ -->
             <div class="media-content-panel inset">
+            
+            ${this._show_inputs2 ? html`
             <div class="grid-container">
+            <div class="zone-text">
+            <svg version="1.1" baseProfile="basic" id="Livello_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="140px" height="70px"
+             viewBox="0 0 140 70" xml:space="preserve">
+             <metadata>
+             <sfw  xmlns="&ns_sfw;">
+             <slices></slices>
+             <sliceSourceBounds  bottomLeftOrigin="true" height="80" width="140" x="0" y="-80"></sliceSourceBounds>
+             </sfw>
+             </metadata>
+             <path style="opacity:0.42;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
+             v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
+             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
+             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:55.4912px;">2</text>
+             </svg>
+            </div>
+              ${stateObj.attributes.source_list.map(source => html`
+              <button class="${stateObj2.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
+            this._select_source2(source);
+            this._show_inputs = false;
+            }}}>${source}</button>
+              `)}
+            </div>
+            ` : html`
+            <div class="grid-container">
+            <div class="zone-text">
+            <svg version="1.1" baseProfile="basic" id="Livello_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="140px" height="70px"
+             viewBox="0 0 140 70" xml:space="preserve">
+             <metadata>
+             <sfw  xmlns="&ns_sfw;">
+             <slices></slices>
+             <sliceSourceBounds  bottomLeftOrigin="true" height="80" width="140" x="0" y="-80"></sliceSourceBounds>
+             </sfw>
+             </metadata>
+             <path style="opacity:0.42;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
+             v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
+             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
+             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:55.4912px;">1</text>
+             </svg>
+            </div>
               ${stateObj.attributes.source_list.map(source => html`
               <button class="${stateObj.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
             this._select_source(source);
@@ -122,14 +173,31 @@ class AmpliPanelCard extends LitElement {
             }}}>${source}</button>
               `)}
             </div> 
+            `} 
             </div>
             ` : html`
             ${this._show_sound_output ? html`
 <!-- ######################################################### SOUND PANEL ################################ -->
             <div class="media-content-panel inset">
-            <div class="grid-container">
+           <div class="grid-container">
+           <div class="zone-text">
+           <svg version="1.1" baseProfile="basic" id="Livello_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="140px" height="70px"
+            viewBox="0 0 140 70" xml:space="preserve">
+            <metadata>
+            <sfw  xmlns="&ns_sfw;">
+            <slices></slices>
+            <sliceSourceBounds  bottomLeftOrigin="true" height="80" width="140" x="0" y="-80"></sliceSourceBounds>
+            </sfw>
+            </metadata>
+            <path style="opacity:0.42;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
+            v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
+            <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
+            <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:55.4912px;">2</text>
+            </svg>
+           </div>
               ${stateObj.attributes.sound_mode_list.map(sound => html`
-              <button class="${stateObj.attributes.sound_mode === sound ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound  ripple'}" @click=${() => {
+              <button class="${stateObj2.attributes.sound_mode === sound ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound  ripple'}" @click=${() => {
             this._select_sound_mode(sound);
             this._show_sound_output = false;
             }}}>${sound}</button>
@@ -163,7 +231,10 @@ ${stateObj.attributes.source === "Spotify" ? html`
 <!-- ######################################################### DEFAULT PANEL ################################ -->
               <div class="media-content-panel double-border">
               <button class="btn" style="background-color: transparent; height: 50px; border-width: 0px;" @click=${() => this._show_hide_inputs()} ><ha-icon icon="mdi:drag-horizontal-variant" style="color: #121212; width: 50px; height: 50px;"/></button>
-              <p class="brand-text">Marantz SR6010</p>
+              <div class="seciotn-brand">
+                <p class="brand-text">${brand}</p>
+                <p class="brand-text-description">${info}</p>
+                </div>
               </div>
                 `}
               `}
@@ -173,7 +244,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
 <!-- ######################################################### Rigth Column ################################ -->
             ${this.config.zone2 ? html`  
             ${state1on ? html`  
-            <div class="section-slider" style="${state2on ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
+            <div class="section-slider" style="${state1on && state2on ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
                     
                     <div class="grid-container-slider-1-command">
                       <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
@@ -196,9 +267,9 @@ ${stateObj.attributes.source === "Spotify" ? html`
                     </div> 
                     <div class="grid-container-slider-1-command">
                       <p class="onoff zona-title">${this.config.name_zona2 || stateObj2.attributes.friendly_name}</p>
-                      <button class="vol-up btn btn_command ripple  " @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:menu-up"</button>
-                      <button class="mute btn btn_command ripple  " Style="color:${stateObj.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute(stateObj2)}><span class="${stateObj2.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
-                      <button class="vol-down btn btn_command ripple  " @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:menu-down" </button>
+                      <button class="vol-up btn btn_command ripple  " @click=${() => this._media_player_service_zone2("volume_up")}><ha-icon icon="mdi:menu-up"</button>
+                      <button class="mute btn btn_command ripple  " Style="color:${stateObj2.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute_zone2(stateObj2)}><span class="${stateObj2.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
+                      <button class="vol-down btn btn_command ripple  " @click=${() => this._media_player_service_zone2("volume_down")}><ha-icon icon="mdi:menu-down" </button>
                     </div>
                 ` : html`
                 `}
@@ -266,6 +337,13 @@ ${stateObj.attributes.source === "Spotify" ? html`
         });
     }
 
+    _select_source2(source) {
+      this.hass.callService("media_player", "select_source", {
+          entity_id: this.config.zone2,
+          source: source
+      });
+  }
+
     _select_sound_mode(sound) {
         this.hass.callService("media_player", "select_sound_mode", {
             entity_id: this.config.entity,
@@ -299,6 +377,13 @@ ${stateObj.attributes.source === "Spotify" ? html`
         });
     }
 
+    _media_player_toggle_mute_zone2(stateObj2) {
+      this.hass.callService("media_player", "volume_mute", {
+          entity_id: this.config.zone2,
+          is_volume_muted: !stateObj2.attributes.is_volume_muted
+      });
+  }
+
 
     setConfig(config) {
         if (!config.entity) {
@@ -319,7 +404,15 @@ ${stateObj.attributes.source === "Spotify" ? html`
 
         return css`
         button:focus {outline:0;}
-
+        .blink {
+          animation: blinker 1.5s linear infinite;
+          color: red;
+          }
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+              }
+          }
 
 
         /*Create ripple effec*/
@@ -383,14 +476,15 @@ ${stateObj.attributes.source === "Spotify" ? html`
         .grid-container-power {
           display: grid;
           grid-template-columns: 120px;
-          grid-template-rows: 80px auto 60px 80px 80px 80px 32px 48px;
-          height: 478px;
+          grid-template-rows: 80px 20px auto 20px 80px 80px 80px 32px 48px;
+          height: 505px;
           align-items: center;
           justify-content: center;
           place-items: center;
           grid-template-areas:
       
             "power"
+            "main-title"
             "."
             "zone2-title"
             "zone2-power"
@@ -426,7 +520,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
       
         .grid-container-display {
           display: grid;
-          grid-template-columns: 65px 200px 50px 200px 100px;
+          grid-template-columns: 65px 200px 65px 200px auto;
           grid-template-rows: 30px 30px;
           background-color: transparent;
           margin:auto;
@@ -567,18 +661,20 @@ ${stateObj.attributes.source === "Spotify" ? html`
         }
         .bar_value {
           //    background-image: linear-gradient(to right, #74cbf2, #4f8df6);
-              background-color: transparent;
-              height: 100%;
-              font-size: 60px;
-              text-align: right;
-              grid-area: tuner-disp;
-              color: #00d2ff;
-              text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 25px #00d2ff;
-              opacity: 0.8;
+      //    background-color: red;
+          height: 100%;
+          font-size: 60px;
+          text-align: right;
+          grid-area: tuner-disp;
+          color: #00d2ff;
+          text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 25px #00d2ff;
+          opacity: 0.8;
+          padding: 24px;
+     //     vertical-align: middle;
             }
       
         .fm-text-light {
-          font-size: 12px;
+          font-size: 18px;
           text-align: center;
           color: #00d2ff;
           text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 25px #00d2ff;
@@ -594,8 +690,6 @@ ${stateObj.attributes.source === "Spotify" ? html`
       
         .media-content-panel {
           margin-top:20px;
-
-      
           display: flex;
           flex-direction: column;
           background-color: transparent;
@@ -609,7 +703,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
       
         .double-border {
           border: double 5px #020202;
-          height: 230px;
+          height: 231px;
         }
       
         .central-column-display {
@@ -617,7 +711,6 @@ ${stateObj.attributes.source === "Spotify" ? html`
           flex-direction: column;
           border: 2px solid #361a1a;
           padding-bottom: 20px;
-      
           background: rgb(0,0,0);
           background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(17,17,17,1) 48%, rgba(0,0,0,1) 61%, rgba(0,0,0,1) 100%);
           width: 650px;
@@ -650,44 +743,39 @@ ${stateObj.attributes.source === "Spotify" ? html`
       
         }
       
+        .seciotn-brand {
+          display: flex;
+          flex-direction: row;
+        }      
         .brand-text {
-        margin-top: 160px;
-          padding: 20px;
+          margin-top: 140px;
           font-size: 22px;
           text-align: left;
-          
-          background-image:
-            -webkit-repeating-linear-gradient(top,
-              hsla(0,0%,100%,0) 0%,
-              hsla(0,0%,100%,0) 3%,
-              hsla(0,0%,100%,.1) 4.5%),
-            -webkit-repeating-linear-gradient(top, 
-              hsla(0,0%,0%,0) 0%,
-              hsla(0,0%,0%,0) 2%,
-              hsla(0,0%,0%,.03) 2.5%),
-            -webkit-repeating-linear-gradient(top,
-              hsla(0,0%,100%,0) 0%,
-              hsla(0,0%,100%,0) 0.6%,
-              hsla(0,0%,100%,.15) 1.2%),
-            linear-gradient(80deg,
-              #a6a6a6 0%,
-              #d9d9d9 45%,
-              #e0e0e0 55%,
-              #e0e0e0 65%,
-              #d9d9d9 75%,
-              #a6a6a6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-
-          font-family: 'futura';
-
-            color: #fff;
-// background-color: red;
-     //     color: #020202;
-        //  color: rgba(189, 193, 198, 0.3);
-
+          width: auto;
+          margin-left: 20px;
+          color: rgba(203,203,203, 0.8)
+        }
+        .brand-text-description {
+          margin-top: 143px;
+          font-size: 12px;
+          text-align: left;
+          width: auto;
+          margin-left: 5px;
+          color: rgba(203,203,203, 0.8)
+        }
+         
       
-      
+        .zone-text {
+          width: 140px;
+          height: 70px;
+          margin: auto;
+          grid-column-start: 1;
+          grid-column-end: 2;
+          grid-row-start: 1;
+          grid-row-end: 3;
+
+
+
         }
       
         .title {
@@ -699,13 +787,21 @@ ${stateObj.attributes.source === "Spotify" ? html`
           text-align: center;
           color: #00d2ff;
           text-shadow: 0 0 10px rgba(0,210,255, 0.5), 0 0 25px #00d2ff;
+          
         }
       
         .power {
           grid-area: power;
         }
+        .main-title {
+          grid-area: main-title;
+          font-size: 11px;
+          color: rgba(203,203,203, 0.6);
+        }
         .zone2-title {
           grid-area: zone2-title;
+          font-size: 11px;
+          color: rgba(203,203,203, 0.6);
         }
         .zone2-power {
           grid-area: zone2-power;
@@ -831,7 +927,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
           height: 40px;
           border-radius: 50%;
           margin: auto;
-          border-width: 1px;
+          border-width: 2px;
           background-image: url(${btn1});
           background-position: center;
         }
@@ -858,7 +954,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
           height: 70px;
           border-radius: 15px;
           margin: 5px;
-          border-width: 1px;
+          border-width: 2px;
         }
       
         .btn-vol {
@@ -883,7 +979,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
           cursor: pointer;
           
       //     border: 1px solid red;
-          border-color: black;
+          border-color: rgba(0,0,0,0.3);
         }
       
         .btn-flat {

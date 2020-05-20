@@ -324,7 +324,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
 
     _toggle_media_player_zone2() {
         this._media_player_service_zone2("toggle");
-        this._show_inputs = false;
+        this._show_inputs2 = false;
         this._show_sound_output = false;
     }
 

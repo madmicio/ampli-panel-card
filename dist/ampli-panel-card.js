@@ -243,9 +243,10 @@ ${stateObj.attributes.source === "Spotify" ? html`
           
 <!-- ######################################################### Rigth Column ################################ -->
             ${this.config.zone2 ? html`  
-            ${state1on ? html`  
+            ${state1on || state2on ? html`  
             <div class="section-slider" style="${state1on && state2on ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
                     
+                ${state1on ? html`
                     <div class="grid-container-slider-1-command">
                       <p class="onoff zona-title">${this.config.name || stateObj.attributes.friendly_name}</p>
                       <button class="vol-up btn btn_command  ripple" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:menu-up"</button>
@@ -257,7 +258,8 @@ ${stateObj.attributes.source === "Spotify" ? html`
                         <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
                         <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? stateObj.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                       </div> 
-                    </div> 
+                    </div>
+                ` : html``} 
 
                 ${state2on ? html`
                     <div class="grid-item" style="width: calc(${coverWidth} + 20px);">

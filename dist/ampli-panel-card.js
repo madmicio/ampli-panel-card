@@ -41,7 +41,7 @@ class AmpliPanelCard extends LitElement {
               <label class="main-title">MAIN</label>
               <label class="zone2-title">ZONE 2</label>
                 <button style="border-radius:50%;" class="power ${state1on ? 'btn btn_command-on ' : 'btn btn_command  ripple  '}" @click=${() => this._toggle_media_player()}><ha-icon icon="mdi:power" style="color: ${state1on ? '#00d2ff' : 'red'};"</button>
-                <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on ' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._media_player_service_zone2("toggle")}><ha-icon icon="mdi:power" style="color: ${state2on ? '#00d2ff' : 'red'};"</button>
+                <button style="border-radius:50%;" class="zone2-power ${state2on ? 'btn btn_command-on ' : 'btn btn_command ripple  '}" style="border-radius:50%; height: 60px; width: 60px; color: ${state2on ? 'white' : 'red'}" @click=${() => this._toggle_media_player_zone2()}><ha-icon icon="mdi:power" style="color: ${state2on ? '#00d2ff' : 'red'};"</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="input btn btn_command  ripple  " @click=${() => this._show_hide_inputs()}>INPUT</button>
                 <button style="border-radius:50%; height: 60px; width: 60px;" class="sound btn btn_command  ripple  " @click=${() => this._show_hide_sound_mode()}>SOUND</button>
                 <svg class="text-zone" version="1.0" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -318,6 +318,12 @@ ${stateObj.attributes.source === "Spotify" ? html`
 
     _toggle_media_player() {
         this._media_player_service("toggle");
+        this._show_inputs = false;
+        this._show_sound_output = false;
+    }
+
+    _toggle_media_player_zone2() {
+        this._media_player_service_zone2("toggle");
         this._show_inputs = false;
         this._show_sound_output = false;
     }

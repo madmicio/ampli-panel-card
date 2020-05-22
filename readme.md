@@ -1,3 +1,15 @@
+### AV Receiver Panel Card
+
+
+  ```yaml 
+  - type: css
+    url: /hacsfiles/ampli-panel-card-old/font.css
+
+  - type: module
+    url: /hacsfiles/ampli-panel-card-old/ampli-panel-card.js  
+
+  ```
+  
   ```yaml
   - badges: []
     cards:

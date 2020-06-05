@@ -7,7 +7,7 @@ it is based on the media_player component thus increasing compatibility with var
 ## Demo Video
 [![Watch the video](example/screen_video.png)](https://youtu.be/-ai8dvM8xrc)
 
-## hacs Card install
+## Hacs Card Install
 
 1. add madmicio/ampli-panel-card as custom reposity
 
@@ -48,7 +48,8 @@ resources:
 | -------------- | ----------- | ------------ | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | string | **Required** | `custom:ampli-panel-card` | Type of the card |
 | `entity` | string | **Required** |  | Av-Recevier madia_player entity |
-| `name` | string | **Receiver Name** | text | name of main zone |
+| `name` | string | **Main Zone Receiver Name** | text | name of main zone |
 | `brand` |  | **Receiver description**| text | Av-Receiver brand name|
 | `info` |  | **Option**| text | Av-Receiver description |
 | `zone2` |  | **Option**| text | enable zone2 (second hdmi output) |
+| `name_zona2` | string | **Zone2 Receiver Name** | text | name of main zone | 

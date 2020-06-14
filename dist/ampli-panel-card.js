@@ -135,10 +135,10 @@ class AmpliPanelCard extends LitElement {
              <sliceSourceBounds  bottomLeftOrigin="true" height="80" width="140" x="0" y="-80"></sliceSourceBounds>
              </sfw>
              </metadata>
-             <path style="opacity:0.42;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
+             <path style="opacity:0.12;fill:none;stroke:rgba(203,203,203, 0.6);stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
              v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
-             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
-             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:55.4912px;">2</text>
+             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.12;fill:rgba(203,203,203, 0.6); font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
+             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.12;fill:rgba(203,203,203, 0.6); font-family:'Krungthep'; font-size:55.4912px;">2</text>
              </svg>
             </div>
               ${stateObj2.attributes.source_list.map(source => html`
@@ -160,10 +160,10 @@ class AmpliPanelCard extends LitElement {
              <sliceSourceBounds  bottomLeftOrigin="true" height="80" width="140" x="0" y="-80"></sliceSourceBounds>
              </sfw>
              </metadata>
-             <path style="opacity:0.42;fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
+             <path style="opacity:0.12;fill:none;stroke:rgba(203,203,203, 0.6);stroke-width:3;stroke-miterlimit:10;" d="M126.5,68.5h-113c-6.6,0-12-5.4-12-12
              v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
-             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
-             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.42;fill:#000000; font-family:'Krungthep'; font-size:55.4912px;">1</text>
+             <text transform="matrix(1 0 0 1 14.0908 40.0498)" style="opacity:0.12;fill:rgba(203,203,203, 0.6); font-family:'Krungthep'; font-size:30.4386px;">ZONE</text>
+             <text transform="matrix(1.1144 0 0 1 88.8184 57.4141)" style="opacity:0.12;fill:rgba(203,203,203, 0.6); font-family:'Krungthep'; font-size:55.4912px;">1</text>
              </svg>
             </div>
               ${stateObj.attributes.source_list.map(source => html`
@@ -183,10 +183,10 @@ class AmpliPanelCard extends LitElement {
            <div class="zone-text">
            <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="140px" height="70px" viewBox="0 0 140 70" enable-background="new 0 0 140 70" xml:space="preserve">
-<path opacity="0.42" fill="none" stroke="#000000" stroke-width="3" stroke-miterlimit="10" d="M126.5,68.5h-113
+<path opacity="0.12" fill="none" stroke="rgba(203,203,203, 0.6)" stroke-width="3" stroke-miterlimit="10" d="M126.5,68.5h-113
 	c-6.6,0-12-5.4-12-12v-43c0-6.6,5.4-12,12-12h113c6.6,0,12,5.4,12,12v43C138.5,63.1,133.1,68.5,126.5,68.5z"/>
-<text transform="matrix(1 0 0 1 12.0908 35.0498)" opacity="0.42" fill="#000000" font-family="'Krungthep'" font-size="24px">SOUND</text>
-<text transform="matrix(1 0 0 1 58.0908 57.0498)" opacity="0.42" fill="#000000" font-family="'Krungthep'" font-size="24px">MODE</text>
+<text transform="matrix(1 0 0 1 12.0908 35.0498)" opacity="0.12" fill="rgba(203,203,203, 0.6)" font-family="'Krungthep'" font-size="24px">SOUND</text>
+<text transform="matrix(1 0 0 1 58.0908 57.0498)" opacity="0.12" fill="rgba(203,203,203, 0.6)" font-family="'Krungthep'" font-size="24px">MODE</text>
 </svg>
 
            </div>
@@ -252,6 +252,7 @@ ${stateObj.attributes.source === "Spotify" ? html`
                         <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
                         <input type="range" class="${stateObj.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? stateObj.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
                       </div> 
+                    
                     </div>
                 ` : html``} 
 
@@ -1042,7 +1043,6 @@ ${stateObj.attributes.source === "Spotify" ? html`
         .range-holder input[type="range"]::-webkit-slider-runnable-track {
           height: var(--slider-width);
           -webkit-appearance: none;
-          color: #636363;
           margin-top: -1px;
           transition: box-shadow 0.2s ease-in-out;
         }
@@ -1055,17 +1055,21 @@ ${stateObj.attributes.source === "Spotify" ? html`
           -webkit-appearance: none;
           height: 80px;
           cursor: ns-resize;
-          background: transparent;
-          box-shadow: -350px 0 0 350px transparent, inset 0 0 0 80px #e3edf7;
+          background: rgba(255,0,0,0.15);
+          box-shadow: -350px 0 0 350px transparent, inset 0 0 0 90px transparent;
           border-radius: 0;
           transition: box-shadow 0.2s ease-in-out;
           position: relative;
           top: calc((var(--slider-width) - 80px) / 2);
         }
         .range-holder input[type="range"].on::-webkit-slider-thumb {
-            border-color: rgba(0,0,0,0.4);
-            box-shadow: -350px 0 0 350px rgba(0,0,0,0.4), inset 0 0 0 80px #BDC1C6;
+            border-color: transparent);
+            box-shadow: -350px 0 0 350px rgba(255,0,0,0.15), inset 0 0 0 81px #BDC1C6;
         }
+        .range-holder input[type="range"].playing::-webkit-slider-thumb {
+          border-color: transparent);
+          box-shadow: -350px 0 0 350px rgba(255,0,0,0.15), inset 0 0 0 81px #BDC1C6;
+      }
       
       
       

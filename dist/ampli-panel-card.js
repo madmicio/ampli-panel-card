@@ -142,7 +142,7 @@ class AmpliPanelCard extends LitElement {
              </svg>
             </div>
               ${stateObj.attributes.source_list.map(source => html`
-              <button class="${stateObj2.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
+              <button class="${stateObj.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
             this._select_source2(source);
             this._show_inputs = false;
             }}}>${source}</button>

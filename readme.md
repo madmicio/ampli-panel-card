@@ -19,6 +19,8 @@ it is based on the media_player component thus increasing compatibility with var
 resources:
   - type: module
     url: /hacsfiles/ampli-panel-card/ampli-panel-card.js
+  - type: css
+    url: /hacsfiles/ampli-panel-card/font.css
 ```
 
 
@@ -32,6 +34,8 @@ resources:
   resources:
     - url: /local/"your_directory"/ampli-panel-card.js
       type: module
+    - type: css
+      url: /hacsfiles/ampli-panel-card/font.css
   ```
 
   # lovelace config example: 

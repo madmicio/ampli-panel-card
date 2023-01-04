@@ -145,7 +145,7 @@ class AmpliPanelCard extends LitElement {
               <button class="${stateObj2.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
             this._select_source2(source);
             this._show_inputs = false;
-            }}}>${source}</button>
+            }}>${source}</button>
               `)}
             </div>
             ` : html`
@@ -170,7 +170,7 @@ class AmpliPanelCard extends LitElement {
               <button class="${stateObj.attributes.source === source ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound ripple'}" @click=${() => {
             this._select_source(source);
             this._show_inputs = false;
-            }}}>${source}</button>
+            }}>${source}</button>
               `)}
             </div> 
             `} 
@@ -194,7 +194,7 @@ class AmpliPanelCard extends LitElement {
               <button class="${stateObj.attributes.sound_mode === sound ? 'btn btn_hdmi-sound-on' : 'btn btn_hdmi-sound  ripple'}" @click=${() => {
             this._select_sound_mode(sound);
             this._show_sound_output = false;
-            }}}>${sound}</button>
+            }}>${sound}</button>
               `)}
             </div> 
             </div>

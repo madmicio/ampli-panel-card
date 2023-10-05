@@ -4,6 +4,11 @@
 Custom card for home assistant for the management of AV Receivers.
 it is based on the media_player component thus increasing compatibility with various devices and brands
 
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+
+[![buymeacoffee_badge](https://img.shields.io/badge/Donate-buymeacoffe-ff813f?style=flat)](https://www.buymeacoffee.com/madmicio)
+
+
 ![all](example/ampli_1.png)
 
 ## Demo Video

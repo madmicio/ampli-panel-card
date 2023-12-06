@@ -23,13 +23,27 @@ jobs:
 
       - name: Upload build result to release
         uses: svenstaro/upload-release-action@v1-release
-
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: |
-            dist/ampli-panel-card.js
-            fonts/DS-DIGII.TTF
-            fonts/LEDCalculator.ttf
+          file: dist/ampli-panel-card.js
           asset_name: ampli-panel-card.js
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: Upload DS-DIGII.TTF to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: fonts/DS-DIGII.TTF
+          asset_name: DS-DIGII.TTF
+          tag: ${{ github.ref }}
+          overwrite: true
+
+      - name: Upload LEDCalculator.ttf to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: fonts/LEDCalculator.ttf
+          asset_name: LEDCalculator.ttf
           tag: ${{ github.ref }}
           overwrite: true

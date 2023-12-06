@@ -41,7 +41,7 @@ export class AmpliPanelCard extends LitElement {
     private _show_inputs: boolean;
     private _show_inputs2: boolean;
     private _show_sound_output: boolean;
-    private loadLocalFont(scriptDirectory: string) {
+    private loadLocalFont(scriptDirectory: string, path: string) {
       const style = document.createElement("style");
       style.textContent = `
         @font-face {
@@ -57,6 +57,7 @@ export class AmpliPanelCard extends LitElement {
         
       `;
       document.head.appendChild(style);
+
     }
     
   
@@ -84,7 +85,7 @@ constructor() {
     this._show_inputs = false;
     const scriptPath = new URL(import.meta.url).pathname;
     const scriptDirectory = scriptPath.substring(0, scriptPath.lastIndexOf('/'));
-    this.loadLocalFont(scriptDirectory);
+    this.loadLocalFont(scriptDirectory, scriptPath);
 }
 
 render() {
@@ -110,7 +111,6 @@ render() {
       state1on = this.config.entity && !["off", "idle"].includes(stateObj.state);
       state2on = this.config.zone2 && !["off", "idle"].includes(stateObj2.state);
     }
-    
 
     return html`
     <div class="card">

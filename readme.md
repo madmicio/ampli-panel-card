@@ -31,7 +31,9 @@ resources:
 
 ### Manual install
 
-1. Download and copy `ampli-panel-card.js` from (https://github.com/madmicio/ampli-panel-card/blob/master/dist/ampli-panel-card.js) into your custom components  directory.
+1. Download and copy `ampli-panel-card.js`, `DS-DIGII.TTF`, `LEDCalculator.ttf`
+
+ from (https://github.com/madmicio/ampli-panel-card/releases) into your custom components  directory.
 
 2. Add a reference `ampli-panel-card.js` inside your resources config:
 

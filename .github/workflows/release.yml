@@ -26,7 +26,10 @@ jobs:
 
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/ampli-panel-card.js
+          files: |
+            dist/ampli-panel-card.js
+            fonts/DS-DIGII.TTF
+            fonts/LEDCalculator.ttf
           asset_name: ampli-panel-card.js
           tag: ${{ github.ref }}
           overwrite: true

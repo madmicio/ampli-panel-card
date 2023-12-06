@@ -1,0 +1,6 @@
+{
+    "name": "AV Receiver control card",
+    "filename": "ampli-panel-card.js",
+    "content_in_root": false,
+    "render_readme" : true
+    }

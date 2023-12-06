@@ -1,4 +1,3 @@
-## n.b: fixed sound panel and input panel error
 
 # AV Receiver Panel - Popup Card
 Custom card for home assistant for the management of AV Receivers.

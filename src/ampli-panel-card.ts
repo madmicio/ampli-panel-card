@@ -89,7 +89,7 @@ constructor() {
 }
 
 render() {
-  
+    const hacardsize = this.config.scale && this.config.scale ? this.config.scale : "1000";
     const stateObj = this.hass.states[this.config.entity];
     const stateObj2 = this.hass.states[this.config.zone2];
     const coverWidth = this.config.coverWidth ? this.config.coverWidth : "70px";
@@ -112,8 +112,8 @@ render() {
       state2on = this.config.zone2 && !["off", "idle"].includes(stateObj2.state);
     }
 
-    return html`
-    <div class="card">
+    const card = html`
+
       <div class="page">
         ${this.config.zone2 ? html`
           <div class="grid-container-power" style="${state1on && state2on ? 'width: 120px;' : 'width: 280px;'}">
@@ -383,7 +383,25 @@ ${stateObj?.attributes.source === "Spotify" ? html`
 
 <!-- ######################################## -->
       </div>
+
+          `;
+
+
+    return html`
+    ${(this.config.auto_size && this.config.auto_size === "autosize") || (this.config.auto_size && this.config.auto_size === "scale") ? html`
+    <div class=card style="${this.config.auto_size && this.config.auto_size === 'scale' ? `width: ${hacardsize}px` : ''}">
+      <svg version="1.1" id="Livello_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      viewBox="0 0 1302.4 563.2" style="enable-background:new 0 0 1318 644;" xml:space="preserve">
+        <foreignobject transform="matrix(1 0 0 1 0 0)"    width="1318" height="644">
+         ${card}
+        </foreignobject>
+      </svg>
     </div>
+   ` : html`
+   <div class=card>
+   ${card}
+   </div>
+   `}
 `;
 }
 

@@ -5,7 +5,11 @@ import { css } from 'lit'
 
 
 export default css`
-button:focus {outline:0;}
+
+        ha-card {
+          background-color: red;
+        }
+        button:focus {outline:0;}
         .blink {
           animation: blinker 1.5s linear infinite;
           color: red;
@@ -52,7 +56,7 @@ button:focus {outline:0;}
           display: flex;
       //    justify-content: center;
           width: 100%;
-          height: 100%;
+          // height: 100%;
       
         }
         .page {
@@ -67,7 +71,7 @@ button:focus {outline:0;}
           justify-content: center;
           background-color: black;
           background-image: url(${alu6});
-          margin:30px auto 50px auto;
+          // margin:30px auto 50px auto;
           height: 500px;
           padding-right: 20px;
           padding: 30px;

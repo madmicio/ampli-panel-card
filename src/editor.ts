@@ -158,6 +158,45 @@ class AmpliPanelCardEditor extends LitElement {
     this.requestUpdate(); // Aggiunta per forzare il render
   }
 
+  resize(optionvalue) {
+    let heading = 'Do you want to configure an AV-Receiver';
+
+    // Controlla se esiste una configurazione "auto_size" e usa quel valore come opzione selezionata
+    const autoresize = this._config.auto_size || 'none';
+
+    return html`
+          <div>Card size config</div>
+          <select name="auto_size" id="auto_size" class="select-item"
+                  .value="${autoresize}"
+                  @change=${this.configChanged}
+          >
+            <option value="none" ?selected=${autoresize === 'none'}>none</option> 
+            <option value="autosize" ?selected=${autoresize === 'autosize'}>auto size</option>
+            <option value="scale" ?selected=${autoresize === 'scale'}>scale</option>
+          </select>
+          <br><br>
+        `;
+  }
+
+  setDimensions(dimensions) {
+    if (this._config.auto_size === 'scale')  {
+    let heading = 'Dimensions';
+
+    const scale = this._config.scale ? this._config.scale : "1000";
+
+    return html`
+
+          <div  class="heading">${heading}:</div>
+          <div style="display:flex;flex-direction:row;">
+            <label for="scale">Card Scale: </label><br>
+            <input style="flex-grow: 1; width:auto;" type="number" min="500" max="1500" step="1" .value="${scale}" id="scale" name="scale" @input=${this.configChanged} style="width: 40ch;">
+            </input>
+          </div>
+          <br>
+        `;
+    }
+  }
+
   setAmpliName(ampliNameValue) {
     if (this._config.av_receiver_family) {
     let heading = 'AV receiver Brand Name (option):';
@@ -187,7 +226,7 @@ class AmpliPanelCardEditor extends LitElement {
   }
 
   setZona1Name(ampliNameValue) {
-    let heading = 'AV receiver Model Description (option):';
+    let heading = 'Zone 1 name (option):';
     return html`
             ${heading}<br>
             <input type="text" name="name" id="name" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${ampliNameValue}"
@@ -196,7 +235,7 @@ class AmpliPanelCardEditor extends LitElement {
         `;
   }
   setZona2Name(ampliNameValue) {
-    let heading = 'AV receiver Model Description (option):';
+    let heading = 'Zone 2 name (option):';
     return html`
             ${heading}<br>
             <input type="text" name="name_zona2" id="name_zona2" style="width: 37.8ch;padding: .6em; font-size: 1em;" .value="${ampliNameValue}"
@@ -210,23 +249,36 @@ class AmpliPanelCardEditor extends LitElement {
 
 
     return html`
-
+    <div class="container">
       ${this.getDeviceAVReceiverDropdown(this._config.av_receiver_family)}
       ${this.getMediaPlayerEntityDropdown(this._config.av_receiver_family)}
       ${this.getMediaPlayerZone2(this._config.av_receiver_family)}
+      ${this.resize(this._config)}
+      ${this.setDimensions(this._config)}
       ${this.setAmpliName(this._config.av_receiver_family)}
       ${this.setAmpliInfo(this._config.info)}
       ${this.setZona1Name(this._config.name)} 
       ${this.setZona2Name(this._config.name_zona2)}
-
-prova
+      <br>
             Other functionalities must be configured manually in YAML editor
+      <div class="donations" style="display: flex">
+          <a href="https://www.buymeacoffee.com/madmicio" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+          <form action="https://www.paypal.com/donate" method="post" target="_top">
+          <input type="hidden" name="hosted_button_id" value="U5VQ9LHM82B7Q" />
+          <input type="image" src="https://pics.paypal.com/00/s/ODdjZjVlZjAtOWVmYS00NjQyLTkyZTUtNWQ3MmMzMmIxYTcx/file.PNG" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" style="height:60px;" />
+          <img alt="" border="0" src="https://www.paypal.com/en_IT/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+      </div>
+    </div>
         `;
   }
 
   static get styles() {
     return css`
- 
+
+    .container {
+            width: 40ch;
+        }
         .color-selector {
             display: grid;
             grid-template-columns: auto 8ch 3ch;
@@ -243,7 +295,7 @@ prova
         }
  
         .select-item {
-            background-color: var(--label-badge-text-color);
+            background-color: var(--secondary-background-color);
             width: 40ch;
             padding: .6em; 
             font-size: 1em;

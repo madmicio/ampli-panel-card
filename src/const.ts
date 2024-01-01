@@ -38,7 +38,7 @@ const avreceivers = {
       "friendlyName": "Soundavo WS66i 6-Zone Amplifier",
       "name": "Soundavo",
     },
-    "yamaha": {
+    "yamaha_ynca": {
       "friendlyName": "Yamaha Network Receivers",
       "name": "Yamaha",
     },

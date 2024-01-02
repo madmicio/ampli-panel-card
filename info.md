@@ -61,7 +61,7 @@ resources:
 | `name` | string | **Main Zone Receiver Name** | text | name of main zone |
 | `brand` |  | **Receiver description**| text | Av-Receiver brand name|
 | `info` |  | **Option**| text | Av-Receiver description | 
-| `auto_size` |  | none| none auto_size scale | set the card size |
+| `auto_size` |  | none| none autosize scale | set the card size |
 | `scale` |  | 1000 | none auto_size scale | set the card scale, you need to configure auto_size: scale.
 sets the width of the card in pixels  |
 | `zone2` |  | **Option**| text | enable zone2 (second hdmi output) |

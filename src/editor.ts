@@ -197,6 +197,25 @@ class AmpliPanelCardEditor extends LitElement {
     }
   }
 
+  lock() {
+    let heading = 'Do you want to lock the volume slider?';
+
+    // Controlla se esiste una configurazione "auto_size" e usa quel valore come opzione selezionata
+    const lockSlider = this._config.lock_slider || 'false';
+
+    return html`
+          <div>Lock slider</div>
+          <select name="lock_slider" id="lock_slider" class="select-item"
+                  .value="${lockSlider}"
+                  @change=${this.configChanged}
+          >
+            <option value="false" ?selected=${lockSlider === 'false'}>false</option> 
+            <option value="true" ?selected=${lockSlider === 'true'}>true</option>
+          </select>
+          <br><br>
+        `;
+  }
+
   setAmpliName(ampliNameValue) {
     if (this._config.av_receiver_family) {
     let heading = 'AV receiver Brand Name (option):';
@@ -255,6 +274,7 @@ class AmpliPanelCardEditor extends LitElement {
       ${this.getMediaPlayerZone2(this._config.av_receiver_family)}
       ${this.resize(this._config)}
       ${this.setDimensions(this._config)}
+      ${this.lock()}
       ${this.setAmpliName(this._config.av_receiver_family)}
       ${this.setAmpliInfo(this._config.info)}
       ${this.setZona1Name(this._config.name)} 

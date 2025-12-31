@@ -111,6 +111,49 @@ render() {
       state1on = this.config.entity && !["off", "idle"].includes(stateObj.state);
       state2on = this.config.zone2 && !["off", "idle"].includes(stateObj2.state);
     }
+    const renderCommands = (name, stateObj, onVolUp, onMute, onVolDown) => html`
+      <div class="grid-container-slider-1-command">
+        <p class="onoff zona-title">${name}</p>
+
+        <button class="vol-up btn btn_command ripple" @click=${onVolUp}>
+          <ha-icon icon="mdi:menu-up"></ha-icon>
+        </button>
+
+        <button class="mute btn btn_command ripple"
+          style="color:${stateObj?.attributes?.is_volume_muted ? 'red' : ''};"
+          @click=${onMute}>
+          <span class="${stateObj?.attributes?.is_volume_muted ? 'blink' : ''}">
+            <ha-icon icon="mdi:volume-mute"></ha-icon>
+          </span>
+        </button>
+
+        <button class="vol-down btn btn_command ripple" @click=${onVolDown}>
+          <ha-icon icon="mdi:menu-down"></ha-icon>
+        </button>
+      </div>
+    `;
+
+    const renderSlider = (stateObj, isOn) => html`
+      <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
+        <div class="range-holder" style="--slider-height:${coverHeight}; --slider-width:${coverWidth}">
+          <input
+            type="range"
+            ?disabled=${this.config.lock_slider} 
+            class="${stateObj?.state}"
+            style="--slider-width:${coverWidth}; --slider-height:${coverHeight};pointer-events: ${this.config.lock_slider ? 'none' : 'auto'};"
+            .value="${isOn ? (stateObj?.attributes?.volume_level ?? 0) * 100 : 0}"
+            @change=${e => this._volume_set(stateObj, e.target.value)}
+          >
+        </div>
+      </div>
+    `;
+
+    const renderPlaceholder = () => html`
+      <div class="section-btn-vol">
+        <button class="btn btn-vol"></button>
+      </div>
+    `;
+
 
     const card = html`
 
@@ -315,68 +358,50 @@ ${stateObj?.attributes.source === "Spotify" ? html`
         </div>
       
 <!-- ######################################################### Rigth Column ################################ -->
-        ${this.config.zone2 ? html`  
-        ${state1on || state2on ? html`  
-        <div class="section-slider" style="${state1on && state2on ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">  
-                
-            ${state1on ? html`
-                <div class="grid-container-slider-1-command">
-                  <p class="onoff zona-title">${this.config.name || stateObj?.attributes.friendly_name}</p>
-                  <button class="vol-up btn btn_command  ripple" @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:menu-up"</button>
-                  <button class="mute btn btn_command  ripple  " Style="color:${stateObj?.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute(stateObj)}><span class="${stateObj?.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
-                  <button class="vol-down btn btn_command  ripple  " @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:menu-down" </button>
-                </div>
+        ${this.config.zone2 ? html`
+  ${(state1on || state2on) ? html`
+    <div class="section-slider"
+      style="${(state1on && state2on) ? 'margin: 0px 10px 0px 25px;' : 'margin: 0px 30px 0px 30px;'}">
 
-                <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
-                    <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                    <input type="range" class="${stateObj?.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? stateObj?.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
-                  </div> 
-                
-                </div>
-            ` : html``} 
+      ${state1on ? html`
+        ${renderCommands(
+          this.config.name || stateObj?.attributes?.friendly_name,
+          stateObj,
+          () => this._media_player_service("volume_up"),
+          () => this._media_player_toggle_mute(stateObj),
+          () => this._media_player_service("volume_down")
+        )}
+        ${renderSlider(stateObj, state1on)}
+      ` : html``}
 
-            ${state2on ? html`
-                <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
-                    <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                    <input type="range" class="${stateObj2.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state2on ? stateObj2.attributes.volume_level * 100 : 0}" @change=${e => this._volume_set(stateObj2, e.target.value)}>
-                </div>    
-                </div> 
-                <div class="grid-container-slider-1-command">
-                  <p class="onoff zona-title">${this.config.name_zona2 || stateObj2.attributes.friendly_name}</p>
-                  <button class="vol-up btn btn_command ripple  " @click=${() => this._media_player_service_zone2("volume_up")}><ha-icon icon="mdi:menu-up"</button>
-                  <button class="mute btn btn_command ripple  " Style="color:${stateObj2.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute_zone2(stateObj2)}><span class="${stateObj2.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
-                  <button class="vol-down btn btn_command ripple  " @click=${() => this._media_player_service_zone2("volume_down")}><ha-icon icon="mdi:menu-down" </button>
-                </div>
-            ` : html`
-            `}
-            </div>
-            ` : html`
-            <div class="section-btn-vol">
-            <button class="btn btn-vol  "></button>
-            </div>
-          `}
-          ` : html`
-          ${state1on ? html`  
-          <div class="section-slider" style="margin: 0px 30px 0px 30px">  
-                  <div class="grid-container-slider-1-command">
-                    <p class="onoff zona-title">${this.config.name || stateObj?.attributes.friendly_name}</p>
-                    <button class="vol-up btn btn_command  ripple  " @click=${() => this._media_player_service("volume_up")}><ha-icon icon="mdi:menu-up"</button>
-                    <button class="mute btn btn_command  ripple  " Style="color:${stateObj?.attributes.is_volume_muted === true ? 'red' : ''};" @click=${() => this._media_player_toggle_mute(stateObj)}><span class="${stateObj?.attributes.is_volume_muted === true ? 'blink' : ''}"><ha-icon icon="mdi:volume-mute"></span></button>
-                    <button class="vol-down btn btn_command  ripple  " @click=${() => this._media_player_service("volume_down")}><ha-icon icon="mdi:menu-down" </button>
-                  </div>
-                  <div class="grid-item" style="width: calc(${coverWidth} + 20px);">
-                      <div class="range-holder" style="--slider-height: ${coverHeight}; --slider-width: ${coverWidth}">
-                      <input type="range" class="${stateObj?.state}" style="--slider-width: ${coverWidth};--slider-height: ${coverHeight};" .value="${state1on ? (stateObj?.attributes.volume_level * 100) : 0}" @change=${e => this._volume_set(stateObj, e.target.value)}>
-                    </div> 
-                  </div> 
-              </div>
-              ` : html`
-              <div class="section-btn-vol">
-              <button class="btn btn-vol  "></button>
-              </div>
-            `}
+      ${state2on ? html`
+        ${renderSlider(stateObj2, state2on)}
+        ${renderCommands(
+          this.config.name_zona2 || stateObj2?.attributes?.friendly_name,
+          stateObj2,
+          () => this._media_player_service_zone2("volume_up"),
+          () => this._media_player_toggle_mute_zone2(stateObj2),
+          () => this._media_player_service_zone2("volume_down")
+        )}
+      ` : html``}
 
-        `}
+    </div>
+  ` : renderPlaceholder()}
+` : html`
+  ${state1on ? html`
+    <div class="section-slider" style="margin: 0px 30px 0px 30px">
+      ${renderCommands(
+        this.config.name || stateObj?.attributes?.friendly_name,
+        stateObj,
+        () => this._media_player_service("volume_up"),
+        () => this._media_player_toggle_mute(stateObj),
+        () => this._media_player_service("volume_down")
+      )}
+      ${renderSlider(stateObj, state1on)}
+    </div>
+  ` : renderPlaceholder()}
+`}
+
 
 
 

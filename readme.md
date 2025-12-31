@@ -64,5 +64,6 @@ resources:
 | `auto_size` |  | none| none autosize scale | set the card size |
 | `scale` |  | 1000 | none auto_size scale | set the card scale, you need to configure auto_size: scale.
 sets the width of the card in pixels  |
+| `lock_slider` |  | false | false / true | locks the cursor action, if locked the volume can be set via the buttons  |
 | `zone2` |  | **Option**| text | enable zone2 (second hdmi output) |
 | `name_zona2` | string | **Zone2 Receiver Name** | text | name of main zone | 
